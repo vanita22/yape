@@ -7,6 +7,7 @@ const apiUsers        = require('./api/users'); //Endpoints relacionados al User
 
 const app = express();
 const db  = levelup('./api/users', {valueEncoding: 'json'});
+const path = require("path");
 
 const format = morganjson({
   short: ':method :url :status',
@@ -24,6 +25,9 @@ let router = express.Router();
 router.get('/', (req, res) => {
   res.json({ name: 'yape-api',version: "0.0.1"});
 });
+
+app.use("/static",express.static(__dirname+"/node_modules"));
+app.use('/public',express.static(__dirname+"/public"));
 
 app.use('/api',apiUsers(router,db));
 
